@@ -12,7 +12,6 @@
                 <th>Model</th>
                 <th>Brand</th>
                 <th>ReleaseYear</th>
-                <th>Km</th>
                 <th>Fuel</th>
                 <th>DriverLicense</th>
                 <th>actions</th>
@@ -25,7 +24,6 @@
                 <td>{{ car.model }}</td>
                 <td>{{ car.brand }}</td>
                 <td>{{ car.releaseYear ? car.releaseYear|date('Y-m-d') : '' }}</td>
-                <td>{{ car.km }}</td>
                 <td>{{ car.fuel }}</td>
                 <td>{{ car.driverLicense ? 'Yes' : 'No' }}</td>
                 <td>

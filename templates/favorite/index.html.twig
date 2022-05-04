@@ -3,31 +3,32 @@
 {% block title %}Favorite index{% endblock %}
 
 {% block body %}
-    <h1>Favorite index</h1>
+<div class="row justify-content-between">
+    <h1>Vos Favoris</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for favorite in favorites %}
-            <tr>
-                <td>{{ favorite.id }}</td>
-                <td>
-                    <a href="{{ path('app_favorite_show', {'id': favorite.id}) }}">show</a>
-                    <a href="{{ path('app_favorite_edit', {'id': favorite.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for favorite in favorites %}
+        {% if favorite.belong == app.user  %}
+        <div class="card col-3" style="width: 18rem; background-color: beige">
+            <img src="{{favorite.annoucement.picture}}" style="object-fit: cover"
+                 width="100%" height="200px" class="card-img-top mt-2" alt="{{ favorite.annoucement.concerne.model }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ favorite.annoucement.title }}</h5>
 
-    <a href="{{ path('app_favorite_new') }}">Create new</a>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ favorite.annoucement.price }} €</li>
+                <li class="list-group-item">{{ favorite.annoucement.concerne.model }} </li>
+                <li class="list-group-item">{{ favorite.annoucement.concerne.brand }} </li>
+
+            </ul>
+            <div class="card-body">
+                <a href="{{ path('app_annoucement_show', {'id': favorite.annoucement.id}) }}" class="card-link link-dark">Detail</a>
+
+                <a href="{{ path('app_add_favorite', {'id': favorite.annoucement.id}) }}" class="card-link link-dark">Supprimer des Favoris</a>
+            </div>
+        </div>
+{% endif %}
+    {% endfor %}
+
+</div>
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-between">
+
+        <h1 class="col-12">Annonces en ligne</h1>
+
+        {% for annoucement in annoucements %}
+            <div class="card col-3" style="width: 18rem; background-color: beige">
+                <img src="{{ annoucement.picture }}" style="object-fit: cover"
+                     width="100%" height="200px" class="card-img-top mt-2" alt="{{ annoucement.concerne.model }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ annoucement.title }}</h5>
+
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ annoucement.price }} €</li>
+                    <li class="list-group-item">{{ annoucement.concerne.model }} </li>
+                    <li class="list-group-item">{{ annoucement.concerne.brand }} </li>
+
+                </ul>
+                <div class="card-body">
+                    <a href="{{ path('app_annoucement_show', {'id': annoucement.id}) }}" class="card-link link-dark">Detail</a>
+                    <a href="{{ path('app_annoucement_edit', {'id': annoucement.id}) }}" class="card-link link-dark">Modifier</a>
+
+                    {% if  app.user and annoucement.isUserFavorite(app.user)  %}
+                    <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Ajouter au Favoris</a>
+                    {% else %}
+                    <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Supprimer des Favoris</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+{% endblock %}

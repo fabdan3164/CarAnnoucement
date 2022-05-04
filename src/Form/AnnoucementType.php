@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Annoucement;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AnnoucementType extends AbstractType
 {
@@ -15,8 +17,18 @@ class AnnoucementType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('price')
-            ->add('picture')
             ->add('concerne')
+            ->add('km')
+            ->add('picture', FileType::class, ['label' => 'Ajouter une image', 'mapped' => false, 'required' => false, 'constraints' => [
+                new File([
+                    'maxSize' => '4M',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid JPEG document',
+                ])
+            ]
+            ]);
         ;
     }
 

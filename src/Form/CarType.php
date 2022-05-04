@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Car;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,7 @@ class CarType extends AbstractType
         $builder
             ->add('model')
             ->add('brand')
-            ->add('releaseYear')
-            ->add('km')
+            ->add('releaseYear', DateType::class, [ 'widget' => 'single_text'])
             ->add('fuel')
             ->add('driverLicense')
         ;

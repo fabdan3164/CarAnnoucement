@@ -3,39 +3,35 @@
 {% block title %}Annoucement index{% endblock %}
 
 {% block body %}
-    <h1>Annoucement index</h1>
+<div class="row justify-content-between">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for annoucement in annoucements %}
-            <tr>
-                <td>{{ annoucement.id }}</td>
-                <td>{{ annoucement.title }}</td>
-                <td>{{ annoucement.description }}</td>
-                <td>{{ annoucement.price }}</td>
-                <td>{{ annoucement.picture }}</td>
-                <td>
-                    <a href="{{ path('app_annoucement_show', {'id': annoucement.id}) }}">show</a>
-                    <a href="{{ path('app_annoucement_edit', {'id': annoucement.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="col-12">Annonces en ligne</h1>
+
+    {% for annoucement in annoucements %}
+    <div class="card col-3" style="width: 18rem;">
+        <img src="{{ asset("img/"~annoucement.id~".jpg") }}" style="object-fit: cover"
+             width="100%" height="200px" class="card-img-top mt-1" alt="{{ annoucement.concerne.model }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ annoucement.title }}</h5>
+            <p class="card-text">{{ annoucement.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ annoucement.price }} €</li>
+            <li class="list-group-item">{{ annoucement.concerne.model }} </li>
+            <li class="list-group-item">{{ annoucement.concerne.brand }} </li>
+
+        </ul>
+        <div class="card-body">
+            <a href="{{ path('app_annoucement_show', {'id': annoucement.id}) }}" class="card-link">Detail</a>
+            <a href="{{ path('app_annoucement_edit', {'id': annoucement.id}) }}" class="card-link">Modifier</a>
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+
 
     <a href="{{ path('app_annoucement_new') }}">Create new</a>
+</div>
 {% endblock %}

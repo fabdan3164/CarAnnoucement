@@ -24,8 +24,7 @@ class Car
     #[ORM\Column(type: 'date')]
     private $releaseYear;
 
-    #[ORM\Column(type: 'integer')]
-    private $km;
+
 
     #[ORM\Column(type: 'string', length: 255)]
     private $fuel;
@@ -146,5 +145,10 @@ class Car
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->model;
     }
 }

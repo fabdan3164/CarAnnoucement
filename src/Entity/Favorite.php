@@ -49,4 +49,7 @@ class Favorite
 
         return $this;
     }
+
+
+
 }
