@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annoucement{% endblock %}
+
+{% block body %}
+    <h1>Annoucement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annoucement.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ annoucement.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annoucement.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ annoucement.price }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>{{ annoucement.picture }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annoucement_index') }}">back to list</a>
+
+    <a href="{{ path('app_annoucement_edit', {'id': annoucement.id}) }}">edit</a>
+
+    {{ include('annoucement/_delete_form.html.twig') }}
+{% endblock %}
