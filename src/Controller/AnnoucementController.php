@@ -24,7 +24,7 @@ class AnnoucementController extends AbstractController
             'annoucements' => $annoucementRepository->findAll(),
         ]);
     }
-
+    #[isGranted("ROLE_USER")]
     #[Route('/new', name: 'app_annoucement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnoucementRepository $annoucementRepository): Response
     {
