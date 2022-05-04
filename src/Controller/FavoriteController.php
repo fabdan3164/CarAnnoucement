@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Favorite;
 use App\Form\FavoriteType;
 use App\Repository\FavoriteRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[isGranted("ROLE_USER")]
 #[Route('/favorite')]
 class FavoriteController extends AbstractController
 {
@@ -50,6 +52,7 @@ class FavoriteController extends AbstractController
     #[Route('/{id}/edit', name: 'app_favorite_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Favorite $favorite, FavoriteRepository $favoriteRepository): Response
     {
+
         $form = $this->createForm(FavoriteType::class, $favorite);
         $form->handleRequest($request);
 

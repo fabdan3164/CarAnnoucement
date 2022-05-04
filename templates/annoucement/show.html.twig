@@ -21,14 +21,17 @@
             </tr>
             <tr>
                 <th>Price</th>
-                <td>{{ annoucement.price }}</td>
+                <td>{{ annoucement.price }} €</td>
             </tr>
             <tr>
-                <th>Picture</th>
-                <td>{{ annoucement.picture }}</td>
+                <th>KM</th>
+                <td>{{ annoucement.km }} km</td>
             </tr>
+
         </tbody>
     </table>
+    <img src="{{asset(annoucement.picture)}}" style="object-fit: contain"
+         width="100%" height="300px" class="card-img-top mt-2" alt="{{ annoucement.concerne.model }}">
 
     <a href="{{ path('app_annoucement_index') }}">back to list</a>
 

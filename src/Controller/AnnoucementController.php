@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[isGranted("ROLE_USER")]
+
 #[Route('/annoucement')]
 class AnnoucementController extends AbstractController
 {
@@ -47,10 +47,10 @@ class AnnoucementController extends AbstractController
                 $extension = $file->guessExtension();
 
                 // Déplacer le fichier dans le dossier de stockage
-                $file->move($directory, $annoucement->getId() . '.' . $extension);
+                $file->move($directory, $annoucement->getTitle() . '.' . $extension);
 
                 // Définir le chemin vers l'image associée à la ville qui sera enregistré dans la base de donnée
-                $annoucement->setPicture($directory .$annoucement->getId() . '.' . $extension);
+                $annoucement->setPicture($directory .$annoucement->getTitle() . '.' . $extension);
             }
             $annoucementRepository->add($annoucement);
             return $this->redirectToRoute('app_annoucement_index', [], Response::HTTP_SEE_OTHER);
@@ -70,9 +70,12 @@ class AnnoucementController extends AbstractController
         ]);
     }
 
+    #[isGranted("ROLE_USER")]
     #[Route('/{id}/edit', name: 'app_annoucement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annoucement $annoucement, AnnoucementRepository $annoucementRepository): Response
     {
+        $user = $this->getUser();
+        if($user === $annoucement->getUser() || $this->isGranted("ROLE_ADMIN") ){
         $form = $this->createForm(AnnoucementType::class, $annoucement);
         $form->handleRequest($request);
 
@@ -86,14 +89,15 @@ class AnnoucementController extends AbstractController
 
             // Vérifier si le fichier existe
             if ($file) {
+
                 // Récupérer l'extension
                 $extension = $file->guessExtension();
 
                 // Déplacer le fichier dans le dossier de stockage
-                $file->move($directory, $annoucement->getId() . '.' . $extension);
+                $file->move($directory, $annoucement->getTitle() . '.' . $extension);
 
                 // Définir le chemin vers l'image associée à la ville qui sera enregistré dans la base de donnée
-                $annoucement->setPicture($directory .$annoucement->getId() . '.' . $extension);
+                $annoucement->setPicture($directory .$annoucement->getTitle() . '.' . $extension);
             }
                 $annoucementRepository->add($annoucement);
             return $this->redirectToRoute('app_annoucement_index', [], Response::HTTP_SEE_OTHER);
@@ -103,18 +107,33 @@ class AnnoucementController extends AbstractController
             'annoucement' => $annoucement,
             'form' => $form,
         ]);
+        }
+        // Add Flash de validation
+        $this->addFlash('alert','Vous ne pouvez pas modifier cette annnonce, vous n\'en êtes pas le propriétaire');
+        return $this->redirectToRoute('app_main');
     }
 
+    #[isGranted("ROLE_USER")]
     #[Route('/{id}', name: 'app_annoucement_delete', methods: ['POST'])]
     public function delete(Request $request, Annoucement $annoucement, AnnoucementRepository $annoucementRepository): Response
     {
+        $user = $this->getUser();
+        if($user === $annoucement->getUser() || $this->isGranted("ROLE_ADMIN") ){
+
         if ($this->isCsrfTokenValid('delete'.$annoucement->getId(), $request->request->get('_token'))) {
             $annoucementRepository->remove($annoucement);
         }
 
         return $this->redirectToRoute('app_annoucement_index', [], Response::HTTP_SEE_OTHER);
+        }
+            // Add Flash de validation
+            $this->addFlash('alert','Vous ne pouvez pas modifier cette annnonce, vous n\'en êtes pas le propriétaire');
+            return $this->redirectToRoute('app_main');
+
+
     }
 
+    #[isGranted("ROLE_USER")]
     #[Route('favorite/{id}', name: 'app_add_favorite', methods: ['GET'])]
     public function addFavorite(Annoucement $annoucement, FavoriteRepository $favoriteRepository) {
         // Appel l'utilisateur actuel

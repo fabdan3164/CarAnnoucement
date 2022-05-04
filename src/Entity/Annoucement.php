@@ -34,15 +34,12 @@ class Annoucement
     #[ORM\OneToMany(mappedBy: 'annoucement', targetEntity: Favorite::class)]
     private $adding;
 
-<<<<<<< HEAD
-=======
     #[ORM\Column(type: 'integer', nullable: true)]
     private $km;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'publish')]
     private $user;
 
->>>>>>> 14876a4 (secondCommit)
     public function __construct()
     {
         $this->adding = new ArrayCollection();
@@ -142,8 +139,6 @@ class Annoucement
 
         return $this;
     }
-<<<<<<< HEAD
-=======
 
     public function getKm(): ?int
     {
@@ -177,9 +172,8 @@ class Annoucement
     public function isUserFavorite(User $user): bool
     {
         foreach ($this->adding as $add) {
-            if ($add->getBelong() == $user) return true;
+            if ($add->getBelong() === $user) return true;
         }
         return false;
     }
->>>>>>> 14876a4 (secondCommit)
 }

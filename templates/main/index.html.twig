@@ -25,10 +25,12 @@
                     <a href="{{ path('app_annoucement_show', {'id': annoucement.id}) }}" class="card-link link-dark">Detail</a>
                     <a href="{{ path('app_annoucement_edit', {'id': annoucement.id}) }}" class="card-link link-dark">Modifier</a>
 
-                    {% if  app.user and annoucement.isUserFavorite(app.user)  %}
-                    <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Ajouter au Favoris</a>
+                    {% if   app.user and annoucement.isUserFavorite(app.user) %}
+                        <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Supprimer
+                            des Favoris</a>
                     {% else %}
-                    <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Supprimer des Favoris</a>
+                        <a href="{{ path('app_add_favorite', {'id': annoucement.id}) }}" class="card-link link-dark">Ajouter
+                            au Favoris</a>
                     {% endif %}
                 </div>
             </div>
